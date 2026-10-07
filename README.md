@@ -13,3 +13,24 @@ Stroški App bo aplikacija za spremljanje osebnih stroškov. Namenjena je, da uo
 ## Podatki
 Posamezen strošek vsebuje: naziv, znesek, datum, kategorijo in opombo.
 
+## Testiranje
+
+### Create (POST)
+![Create](slike/Posnetek%20zaslona%202026-10-07%20225103.png)
+Dodajanje novega stroška.
+
+### Read (GET)
+![Create](slike/Posnetek%20zaslona%202026-10-07%20225156.png)
+Pridobitev vseh stroskov
+
+### Read (GET)
+![Create](slike/Posnetek%20zaslona%202026-10-07%20225222.png)
+Pridobitev enega stroška po idju
+
+### Delete (DELETE)
+![Create](slike/Posnetek%20zaslona%202026-10-07%20225732.png)
+Odstranitev stroka iz seznama
+
+### Update (PUT)
+![Create](slike/Posnetek%20zaslona%202026-10-07%20230207.png)
+Posodobitev/ zamenjava vrednosti stroška
