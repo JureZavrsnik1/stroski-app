@@ -1,0 +1,1 @@
+# stroski-app
