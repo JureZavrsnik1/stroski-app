@@ -1,0 +1,21 @@
+$kind: http-request
+name: http://localhost:8080/api/strosek
+description: ""
+url: http://localhost:8080/api/strosek
+method: GET
+body:
+  type: json
+  content: "   {\r
+
+    \     \"naziv\": \"Malica123\",\r
+
+    \     \"znesek\": 7.50,\r
+
+    \     \"datum\": \"2026-10-07\",\r
+
+    \     \"kategorija\": \"hrana\",\r
+
+    \     \"opomba\": \"malica\"\r
+
+    \   }"
+order: 1791977719475
