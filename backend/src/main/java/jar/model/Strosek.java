@@ -5,26 +5,32 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 
-@Entity
+@Entity 
 public class Strosek {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // id dodeli baza
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) 
     private Long id;
 
     private String naziv;
     private String opomba;
     private double znesek;
     private LocalDate datum;
-    private String kategorija;
+
+    
+    @ManyToOne
+    @JoinColumn(name = "kategorija_id")
+    private Kategorija kategorija;
 
     public Strosek() {
     }
 
-    public Strosek(String naziv, String opomba, double znesek, LocalDate datum, String kategorija) {
+    public Strosek(String naziv, String opomba, double znesek, LocalDate datum, Kategorija kategorija) {
         this.naziv = naziv;
         this.opomba = opomba;
         this.znesek = znesek;
@@ -68,12 +74,11 @@ public class Strosek {
         this.datum = datum;
     }
 
-    public String getKategorija() {
+    public Kategorija getKategorija() {
         return kategorija;
     }
 
-    public void setKategorija(String kategorija) {
+    public void setKategorija(Kategorija kategorija) {
         this.kategorija = kategorija;
     }
-
 }
