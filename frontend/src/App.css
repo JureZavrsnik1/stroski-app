@@ -1,68 +1,128 @@
-/* Osnovni videz aplikacije */
-.stran {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px;
-  font-family: Arial, sans-serif;
-  text-align: left;
-}
-
-.kartica {
-  background: #f5f5f5;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 20px;
+/* Splošno */
+body {
+  margin: 0;
+  background: #f4f6f8;
+  font-family: system-ui, Arial, sans-serif;
   color: #222;
 }
 
-.obrazec {
+.app {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Obrazci: vsak je bela kartica */
+form {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
 }
 
-.obrazec.vrstica {
-  flex-direction: row;
+form h2 {
+  width: 100%;
+  margin: 0;
+  font-size: 18px;
 }
 
+/* Vnosna polja */
 input,
 select {
-  padding: 8px;
-  border: 1px solid #bbb;
-  border-radius: 4px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
+/* Gumbi */
 button {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border: none;
-  border-radius: 4px;
-  background: #2a6df4;
+  border-radius: 6px;
+  background: #2563eb;
   color: white;
+  font-size: 14px;
   cursor: pointer;
 }
 
 button:hover {
-  background: #1b4fc0;
+  background: #1d4ed8;
 }
 
-.gumbi {
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Iskanje in filter */
+.iskanje {
   display: flex;
-  gap: 6px;
+  gap: 10px;
+  margin: 20px 0 10px;
 }
 
+.iskanje input {
+  flex: 1;
+}
+
+/* Tabela */
 table {
   width: 100%;
   border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 th,
 td {
+  padding: 10px 12px;
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
 }
 
+th {
+  background: #e8edf5;
+  cursor: pointer;
+  user-select: none;
+}
+
+td button {
+  margin-right: 4px;
+  padding: 5px 9px;
+  font-size: 13px;
+}
+
+/* Paginacija */
+.paginacija {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+/* Podrobnosti */
+.podrobnosti {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Napaka */
 .napaka {
   color: #b00020;
-  font-weight: bold;
+  text-align: center;
 }
