@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface StrosekRepository extends JpaRepository<Strosek, Long> {
 
-    // LEFT JOIN, da se vrnejo tudi stroški brez kategorije
+    
     @Query("SELECT s FROM Strosek s LEFT JOIN s.kategorija k " +
            "WHERE LOWER(s.naziv) LIKE LOWER(CONCAT('%', :iskanje, '%')) " +
            "AND (:kategorijaId IS NULL OR k.id = :kategorijaId)")
