@@ -3,12 +3,63 @@
 Spletna aplikacija za spremljanje osebnih stroškov: uporabnik zapisuje stroške, jih razvršča v kategorije ter jih išče, filtrira in pregleduje po straneh.
 
 ## Kazalo
-1. [O projektu](#o-projektu)
-2. [Uporabljene tehnologije](#uporabljene-tehnologije)
-3. [Struktura projekta](#struktura-projekta)
-4. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
-5. [Navodila za razvijalce](#navodila-za-razvijalce)
-6. [Standardi kodiranja](#standardi-kodiranja)
+1. [Vizija](#vizija)
+2. [Opis rešitve](#opis-rešitve)
+3. [Ključne funkcionalnosti](#ključne-funkcionalnosti)
+4. [Obseg rešitve in omejitve](#obseg-rešitve-in-omejitve)
+5. [O projektu](#o-projektu)
+6. [Uporabljene tehnologije](#uporabljene-tehnologije)
+7. [Struktura projekta](#struktura-projekta)
+8. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
+9. [Navodila za razvijalce](#navodila-za-razvijalce)
+10. [Standardi kodiranja](#standardi-kodiranja)
+
+
+## Vizija
+
+### Opis rešitve
+
+Mnogi posamezniki, predvsem študenti in mladi, ki se šele osamosvajajo, nimajo jasnega pregleda nad tem, koliko denarja porabijo in za kaj. Stroški se razpršijo med gotovino, kartico in spletne nakupe, zato je ob koncu meseca težko ugotoviti, kam je denar izginil. Obstoječe rešitve so pogosto preveč zapletene, plačljive ali vezane na banko.
+
+Naša aplikacija **Stroški App** je preprosta spletna aplikacija za beleženje in pregled osebnih stroškov. Njen namen je uporabniku omogočiti, da v nekaj sekundah zabeleži strošek in kadarkoli dobi jasen pregled nad svojo porabo. Tako bo lažje prepoznal, kje porabi preveč, in bolj premišljeno upravljal svoj denar.
+
+Aplikacija je namenjena predvsem **študentom in posameznikom**, ki želijo brez večjega truda spremljati svojo osebno porabo, ne potrebujejo pa zahtevnih računovodskih orodij.
+
+Aplikacija je sestavljena iz dveh delov:
+
+- **zaledni del (backend)** v ogrodju Spring Boot, ki skrbi za poslovno logiko in shranjevanje podatkov v podatkovno bazo PostgreSQL ter ponuja REST API (dokumentiran s Swagger/OpenAPI),
+- **čelni del (frontend)** v knjižnici React, preko katerega uporabnik v brskalniku dodaja, ureja in pregleduje svoje stroške.
+
+Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabnik stroške razvršča v kategorije (npr. hrana, prevoz, stanovanje, zabava), kar mu omogoča pregled porabe po področjih.
+
+### Ključne funkcionalnosti
+
+- **Dodajanje stroška** – hiter vnos novega stroška z nazivom, zneskom, datumom, kategorijo in opombo.
+- **Urejanje in brisanje stroškov** – popravek napačno vnesenega ali odstranitev nepotrebnega stroška.
+- **Seznam stroškov** – pregleden prikaz vseh zabeleženih stroškov.
+- **Iskanje in filtriranje** – iskanje po nazivu ter filtriranje po kategoriji in časovnem obdobju.
+- **Razvrščanje in paginacija** – razvrščanje po datumu, znesku ali nazivu ter prikaz po straneh, kar ohranja preglednost tudi pri večjem številu vnosov.
+- **Upravljanje kategorij** – dodajanje in urejanje kategorij stroškov.
+- **Pregled porabe** – prikaz skupne porabe v izbranem obdobju in po kategorijah.
+
+### Obseg rešitve in omejitve
+
+**Obseg rešitve:**
+
+- Aplikacija je namenjena beleženju **osebnih** stroškov enega uporabnika.
+- Deluje kot spletna aplikacija v brskalniku.
+- Vsi podatki se vnašajo ročno.
+- Zajema osnovno upravljanje stroškov in kategorij ter enostavne preglede porabe.
+
+**Omejitve:**
+
+- Aplikacija **ni povezana z bančnimi računi**, zato se transakcije ne uvažajo samodejno.
+- Podpira le eno valuto (EUR), pretvorbe med valutami ni.
+- Ne podpira deljenja stroškov med več uporabniki (npr. skupni stroški sostanovalcev).
+- Ne vsebuje naprednih finančnih funkcij, kot so napovedi porabe, investicije ali davčni izračuni.
+- Ni samostojne mobilne aplikacije – dostop je mogoč le prek brskalnika.
+- Ker gre za študijski projekt, aplikacija ni namenjena produkcijski uporabi z večjim številom uporabnikov.
+
 
 ## O projektu
 
