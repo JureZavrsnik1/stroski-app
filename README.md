@@ -7,12 +7,13 @@ Spletna aplikacija za spremljanje osebnih stroškov: uporabnik zapisuje stroške
 2. [Opis rešitve](#opis-rešitve)
 3. [Ključne funkcionalnosti](#ključne-funkcionalnosti)
 4. [Obseg rešitve in omejitve](#obseg-rešitve-in-omejitve)
-5. [O projektu](#o-projektu)
-6. [Uporabljene tehnologije](#uporabljene-tehnologije)
-7. [Struktura projekta](#struktura-projekta)
-8. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
-9. [Navodila za razvijalce](#navodila-za-razvijalce)
-10. [Standardi kodiranja](#standardi-kodiranja)
+5. [Besednjak](#besednjak)
+6. [O projektu](#o-projektu)
+7. [Uporabljene tehnologije](#uporabljene-tehnologije)
+8. [Struktura projekta](#struktura-projekta)
+9. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
+10. [Navodila za razvijalce](#navodila-za-razvijalce)
+11. [Standardi kodiranja](#standardi-kodiranja)
 
 
 ## Vizija
@@ -60,6 +61,19 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 - Ni samostojne mobilne aplikacije – dostop je mogoč le prek brskalnika.
 - Ker gre za študijski projekt, aplikacija ni namenjena produkcijski uporabi z večjim številom uporabnikov.
 
+## Besednjak
+
+| Izraz | Razlaga |
+|---|---|
+| **Strošek** | Posamezen zabeležen izdatek uporabnika. Vsebuje naziv, znesek, datum, kategorijo in neobvezno opombo. |
+| **Znesek** | Vrednost stroška v evrih (EUR). |
+| **Datum stroška** | Dan, ko je bil strošek nastal (ne nujno dan, ko je bil vnesen v aplikacijo). |
+| **Opomba** | Neobvezno dodatno besedilo, s katerim uporabnik podrobneje opiše strošek. |
+| **Kategorija** | Skupina, v katero uporabnik razvrsti strošek glede na področje porabe (npr. hrana, prevoz, stanovanje, zabava). Vsak strošek pripada natanko eni kategoriji. |
+| **Obdobje** | Časovni razpon (od–do), za katerega uporabnik želi videti stroške ali porabo, npr. tekoči mesec. |
+| **Poraba** | Seštevek zneskov vseh stroškov v izbranem obdobju. |
+| **Poraba po kategorijah** | Prikaz porabe, razdeljene glede na kategorije, iz katerega je razvidno, na katerem področju uporabnik porabi največ. |
+| **Pregled porabe** | Del aplikacije, kjer uporabnik vidi skupno porabo in porabo po kategorijah za izbrano obdobje. |
 
 ## O projektu
 
