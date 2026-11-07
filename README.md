@@ -8,13 +8,13 @@ Spletna aplikacija za spremljanje osebnih stroškov: uporabnik zapisuje stroške
 3. [Ključne funkcionalnosti](#ključne-funkcionalnosti)
 4. [Obseg rešitve in omejitve](#obseg-rešitve-in-omejitve)
 5. [Besednjak](#besednjak)
-6. [O projektu](#o-projektu)
-7. [Uporabljene tehnologije](#uporabljene-tehnologije)
-8. [Struktura projekta](#struktura-projekta)
-9. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
-10. [Navodila za razvijalce](#navodila-za-razvijalce)
-11. [Standardi kodiranja](#standardi-kodiranja)
-
+6. [Diagram primerov uporabe](#diagram-primerov-uporabe)
+7. [O projektu](#o-projektu)
+8. [Uporabljene tehnologije](#uporabljene-tehnologije)
+9. [Struktura projekta](#struktura-projekta)
+10. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
+11. [Navodila za razvijalce](#navodila-za-razvijalce)
+12. [Standardi kodiranja](#standardi-kodiranja)
 
 ## Vizija
 
@@ -47,7 +47,7 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 
 **Obseg rešitve:**
 
-- Aplikacija je namenjena beleženju **osebnih** stroškov enega uporabnika.
+- Aplikacija je namenjena beleženju osebnih stroškov; vsak uporabnik ima svoj račun ter vidi in ureja le svoje stroške.
 - Deluje kot spletna aplikacija v brskalniku.
 - Vsi podatki se vnašajo ročno.
 - Zajema osnovno upravljanje stroškov in kategorij ter enostavne preglede porabe.
@@ -74,6 +74,16 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 | **Poraba** | Seštevek zneskov vseh stroškov v izbranem obdobju. |
 | **Poraba po kategorijah** | Prikaz porabe, razdeljene glede na kategorije, iz katerega je razvidno, na katerem področju uporabnik porabi največ. |
 | **Pregled porabe** | Del aplikacije, kjer uporabnik vidi skupno porabo in porabo po kategorijah za izbrano obdobje. |
+| **Administrator** | Uporabnik z dodatnimi pravicami, ki upravlja kategorije stroškov (dodajanje, urejanje in brisanje kategorij), ki so na voljo vsem uporabnikom. |
+| **Registracija** | Postopek, s katerim nov uporabnik ustvari uporabniški račun in tako dobi dostop do aplikacije. |
+| **Prijava** | Postopek, s katerim se uporabnik ali administrator z uporabniškim imenom in geslom prijavi v aplikacijo in dostopa do svojih podatkov. |
+
+
+## Diagram primerov uporabe
+
+![Diagram primerov uporabe](docs/diagram-primerov-uporabe.png)
+
+Podrobni opisi primerov uporabe: [docs/primeri-uporabe.md](docs/primeri-uporabe.md)
 
 ## O projektu
 
@@ -131,7 +141,9 @@ stroski-app/
 │   └── src/
 │       ├── App.jsx                  glavna komponenta (obrazec, iskanje, tabela, paginacija)
 │       └── App.css                  stili
-├── docs/                            dokumentacija in posnetki zaslona
+├── docs/                            dokumentacija
+│   ├── diagram-primerov-uporabe.png diagram primerov uporabe
+│   └── primeri-uporabe.md           podrobni opisi primerov uporabe
 ├── postman/                         Postman zbirka za testiranje API-ja
 ├── .gitignore
 └── README.md
