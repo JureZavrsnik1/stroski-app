@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public interface StrosekRepository extends JpaRepository<Strosek, Long> {
 
     
@@ -16,4 +19,12 @@ public interface StrosekRepository extends JpaRepository<Strosek, Long> {
     Page<Strosek> poisci(@Param("iskanje") String iskanje,
                          @Param("kategorijaId") Long kategorijaId,
                          Pageable pageable);
+
+    // Vsota zneskov po kategorijah za obdobje (US1, pregled proračuna).
+    // Vsak element je [id kategorije, vsota zneskov].
+    @Query("SELECT s.kategorija.id, SUM(s.znesek) FROM Strosek s " +
+           "WHERE s.datum BETWEEN :od AND :doDatuma AND s.kategorija IS NOT NULL " +
+           "GROUP BY s.kategorija.id")
+    List<Object[]> porabaPoKategorijah(@Param("od") LocalDate od,
+                                       @Param("doDatuma") LocalDate doDatuma);
 }

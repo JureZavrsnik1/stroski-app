@@ -126,3 +126,87 @@ td button {
   color: #b00020;
   text-align: center;
 }
+/* Proračuni (US1) */
+.proracuni {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 16px;
+}
+
+.proracuni h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.proracuni table {
+  margin-top: 12px;
+}
+
+.proracuni input[type="number"] {
+  width: 100px;
+}
+
+.vrstica-napredka {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+.napredek {
+  height: 100%;
+}
+
+.napredek.vredu {
+  background: #16a34a;
+}
+
+.napredek.opozorilo {
+  background: #eab308;
+}
+
+.napredek.prekoracen {
+  background: #dc2626;
+}
+
+.stanje.vredu {
+  color: #15803d;
+}
+
+.stanje.opozorilo {
+  color: #a16207;
+  font-weight: bold;
+}
+
+.stanje.prekoracen {
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+.stanje.brez {
+  color: #6b7280;
+}
+
+.izbira-meseca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.izbira-meseca strong {
+  min-width: 140px;
+  text-align: center;
+}
+
+button.sekundarni {
+  background: #e5e7eb;
+  color: #222;
+}
+
+button.sekundarni:hover {
+  background: #d1d5db;
+}
