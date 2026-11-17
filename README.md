@@ -85,6 +85,8 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 
 Podrobni opisi primerov uporabe: [docs/primeri-uporabe.md](docs/primeri-uporabe.md)
 
+Uporabniške zgodbe s sprejemnimi kriteriji: [docs/user-stories.md](docs/user-stories.md)
+
 ## O projektu
 
 Stroški App je namenjena posameznikom, ki želijo imeti pregled nad tem, koliko denarja porabijo in za kaj. Sestavljata jo zaledje (REST API) in ločen uporabniški vmesnik.
@@ -143,7 +145,8 @@ stroski-app/
 │       └── App.css                  stili
 ├── docs/                            dokumentacija
 │   ├── diagram-primerov-uporabe.png diagram primerov uporabe
-│   └── primeri-uporabe.md           podrobni opisi primerov uporabe
+│   ├── primeri-uporabe.md           podrobni opisi primerov uporabe
+│   └── user-stories.md              uporabniške zgodbe in sprejemni kriteriji
 ├── postman/                         Postman zbirka za testiranje API-ja
 ├── .gitignore
 └── README.md
