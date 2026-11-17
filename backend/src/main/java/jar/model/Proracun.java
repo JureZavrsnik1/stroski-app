@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
-// Mesečni proračun za eno kategorijo (US1). Velja za vsak mesec enako.
 @Entity
 public class Proracun {
 
@@ -17,7 +16,6 @@ public class Proracun {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
-    // Ena kategorija ima največ en proračun
     @OneToOne
     @JoinColumn(name = "kategorija_id", unique = true, nullable = false)
     private Kategorija kategorija;

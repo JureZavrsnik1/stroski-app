@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Enotni testi poslovnih pravil US1 (meje 79 %, 80 %, 100 %, 101 % in brez proračuna)
 class PregledProracunaTest {
 
     @Test
@@ -36,7 +35,7 @@ class PregledProracunaTest {
     }
 
     @Test
-    void vrsticaPodMejo() { // AC3: 90 € od 150 € -> 60 %, preostanek 60 €
+    void vrsticaPodMejo() {
         PregledKategorije v = PregledProracuna.vrstica(kategorija("Hrana"), 150.0, 90.0);
         assertEquals(60, v.odstotek());
         assertEquals(60.0, v.preostanek());
@@ -44,21 +43,21 @@ class PregledProracunaTest {
     }
 
     @Test
-    void vrsticaOpozorilo() { // AC4: 125 € od 150 € -> 83 %
+    void vrsticaOpozorilo() {
         PregledKategorije v = PregledProracuna.vrstica(kategorija("Hrana"), 150.0, 125.0);
         assertEquals(83, v.odstotek());
         assertEquals(StanjeProracuna.OPOZORILO, v.stanje());
     }
 
     @Test
-    void vrsticaPrekoracen() { // AC5: 170 € od 150 € -> prekoračen za 20 €
+    void vrsticaPrekoracen() {
         PregledKategorije v = PregledProracuna.vrstica(kategorija("Hrana"), 150.0, 170.0);
         assertEquals(-20.0, v.preostanek());
         assertEquals(StanjeProracuna.PREKORACEN, v.stanje());
     }
 
     @Test
-    void vrsticaBrezProracuna() { // AC6: brez odstotka in preostanka
+    void vrsticaBrezProracuna() {
         PregledKategorije v = PregledProracuna.vrstica(kategorija("Prevoz"), null, 30.0);
         assertNull(v.odstotek());
         assertNull(v.preostanek());

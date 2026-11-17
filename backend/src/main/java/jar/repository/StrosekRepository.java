@@ -20,8 +20,6 @@ public interface StrosekRepository extends JpaRepository<Strosek, Long> {
                          @Param("kategorijaId") Long kategorijaId,
                          Pageable pageable);
 
-    // Vsota zneskov po kategorijah za obdobje (US1, pregled proračuna).
-    // Vsak element je [id kategorije, vsota zneskov].
     @Query("SELECT s.kategorija.id, SUM(s.znesek) FROM Strosek s " +
            "WHERE s.datum BETWEEN :od AND :doDatuma AND s.kategorija IS NOT NULL " +
            "GROUP BY s.kategorija.id")

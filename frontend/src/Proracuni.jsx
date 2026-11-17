@@ -3,29 +3,24 @@ import { useState, useEffect } from "react";
 const API = "http://localhost:8080/api";
 const NAPAKA_ZNESEK = "Znesek proračuna mora biti večji od 0 €";
 
-// Znesek v obliki 90,00 €
 function evri(znesek) {
   return znesek.toLocaleString("sl-SI", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
 }
 
-// Tekoči mesec kot { leto, mesec }, mesec je 1–12
 function tekociMesec() {
   const danes = new Date();
   return { leto: danes.getFullYear(), mesec: danes.getMonth() + 1 };
 }
 
-// Premik za "korak" mesecev naprej (+1) ali nazaj (-1), s prehodom čez leto
 function premakniMesec({ leto, mesec }, korak) {
   const d = new Date(leto, mesec - 1 + korak, 1);
   return { leto: d.getFullYear(), mesec: d.getMonth() + 1 };
 }
 
-// Ime meseca, npr. "november 2026"
 function imeMeseca({ leto, mesec }) {
   return new Date(leto, mesec - 1, 1).toLocaleDateString("sl-SI", { month: "long", year: "numeric" });
 }
 
-// Besedilo in razred CSS za stanje proračuna
 function opisStanja(v) {
   switch (v.stanje) {
     case "OPOZORILO":
@@ -39,24 +34,21 @@ function opisStanja(v) {
   }
 }
 
-// US1: mesečni proračun po kategorijah in poraba glede nanj.
-// Prop "osvezi" se spremeni, ko App doda/uredi/izbriše strošek ali kategorijo.
 function Proracuni({ osvezi }) {
   const [mesec, setMesec] = useState(tekociMesec());
   const [pregled, setPregled] = useState([]);
-  const [vnosi, setVnosi] = useState({}); // id kategorije -> vneseni znesek
+  const [vnosi, setVnosi] = useState({});
   const [napaka, setNapaka] = useState("");
-  const [osvezitev, setOsvezitev] = useState(0); // poveča se po shranjevanju ali odstranitvi
+  const [osvezitev, setOsvezitev] = useState(0);
 
-  // Pregled naložimo ob zagonu, ob menjavi meseca in po vsaki spremembi
   useEffect(() => {
-    let aktivno = true; // prepreči nastavitev stanja iz zastarelega odgovora
+    let aktivno = true;
     fetch(`${API}/proracun/pregled?leto=${mesec.leto}&mesec=${mesec.mesec}`)
       .then((odgovor) => (odgovor.ok ? odgovor.json() : Promise.reject()))
       .then((podatki) => {
         if (aktivno) {
           setPregled(podatki);
-          setNapaka(""); // uspešno naloženo: stara napaka ni več aktualna
+          setNapaka("");
         }
       })
       .catch(() => {

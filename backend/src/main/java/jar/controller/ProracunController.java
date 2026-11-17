@@ -40,14 +40,12 @@ public class ProracunController {
         this.strosekRepository = strosekRepository;
     }
 
-    // READ vsi: GET /api/proracun
     @Operation(summary = "Vrne vse proračune")
     @GetMapping
     public List<Proracun> pridobiVse() {
         return proracunRepository.findAll();
     }
 
-    // CREATE ali UPDATE: PUT /api/proracun/{kategorijaId}
     @Operation(summary = "Nastavi ali spremeni proračun kategorije",
                description = "Če kategorija proračuna še nima, ga ustvari, sicer obstoječega posodobi.")
     @ApiResponse(responseCode = "200", description = "Proračun shranjen")
@@ -68,7 +66,6 @@ public class ProracunController {
         return ResponseEntity.ok(proracunRepository.save(proracun));
     }
 
-    // DELETE: DELETE /api/proracun/{kategorijaId}
     @Operation(summary = "Odstrani proračun kategorije")
     @ApiResponse(responseCode = "204", description = "Proračun odstranjen")
     @ApiResponse(responseCode = "404", description = "Kategorija nima proračuna")
@@ -82,7 +79,6 @@ public class ProracunController {
         return ResponseEntity.noContent().build();
     }
 
-    // PREGLED: GET /api/proracun/pregled?leto=2026&mesec=11
     @Operation(summary = "Poraba glede na proračun za izbrani mesec",
                description = "Za vsako kategorijo vrne porabo v mesecu, proračun, odstotek, preostanek in stanje "
                        + "(V_REDU, OPOZORILO, PREKORACEN, BREZ_PRORACUNA).")
@@ -95,14 +91,12 @@ public class ProracunController {
         }
         YearMonth izbraniMesec = YearMonth.of(leto, mesec);
 
-        // poraba po kategorijah v izbranem mesecu: id kategorije -> vsota
         Map<Long, Double> poraba = new HashMap<>();
         for (Object[] vrstica : strosekRepository.porabaPoKategorijah(
                 izbraniMesec.atDay(1), izbraniMesec.atEndOfMonth())) {
             poraba.put((Long) vrstica[0], ((Number) vrstica[1]).doubleValue());
         }
 
-        // proračuni: id kategorije -> znesek
         Map<Long, Double> proracuni = new HashMap<>();
         for (Proracun p : proracunRepository.findAll()) {
             proracuni.put(p.getKategorija().getId(), p.getZnesek());

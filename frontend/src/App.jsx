@@ -25,7 +25,7 @@ function App() {
   const [izbran, setIzbran] = useState(null);
   const [novaKategorija, setNovaKategorija] = useState("");
   const [napaka, setNapaka] = useState("");
-  const [verzija, setVerzija] = useState(0); // poveča se ob spremembi stroškov/kategorij, da se osvežijo proračuni
+  const [verzija, setVerzija] = useState(0);
 
   // Naloži stroške z iskanjem, filtrom, stranjo in razvrščanjem
   async function naloziStroske() {
@@ -262,7 +262,6 @@ function App() {
         </div>
       )}
 
-      {/* Proračuni po kategorijah (US1) */}
       <Proracuni osvezi={verzija} />
     </div>
   );
