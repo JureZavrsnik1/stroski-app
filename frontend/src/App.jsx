@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import Proracuni from "./Proracuni";
 
 const API = "http://localhost:8080/api";
 const VELIKOST_STRANI = 5; // koliko stroškov je na eni strani
@@ -24,6 +25,7 @@ function App() {
   const [izbran, setIzbran] = useState(null);
   const [novaKategorija, setNovaKategorija] = useState("");
   const [napaka, setNapaka] = useState("");
+  const [verzija, setVerzija] = useState(0);
 
   // Naloži stroške z iskanjem, filtrom, stranjo in razvrščanjem
   async function naloziStroske() {
@@ -117,6 +119,7 @@ function App() {
     }
     preklici();
     naloziStroske();
+    setVerzija(verzija + 1);
   }
 
   function zacniUrejanje(strosek) {
@@ -139,6 +142,7 @@ function App() {
     await fetch(`${API}/strosek/${id}`, { method: "DELETE" });
     if (izbran && izbran.id === id) setIzbran(null);
     naloziStroske();
+    setVerzija(verzija + 1);
   }
 
   async function pokaziPodrobnosti(id) {
@@ -156,6 +160,7 @@ function App() {
     });
     setNovaKategorija("");
     naloziKategorije();
+    setVerzija(verzija + 1);
   }
 
   return (
@@ -256,6 +261,8 @@ function App() {
           <button onClick={() => setIzbran(null)}>Zapri</button>
         </div>
       )}
+
+      <Proracuni osvezi={verzija} />
     </div>
   );
 }
