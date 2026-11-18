@@ -96,6 +96,7 @@ Stroški App je namenjena posameznikom, ki želijo imeti pregled nad tem, koliko
 - dodajanje kategorij in dodeljevanje kategorije stroškom,
 - iskanje stroškov po nazivu in filtriranje po kategoriji,
 - paginacija (5 zapisov na stran) in razvrščanje po nazivu, znesku in datumu,
+- izvoz stroškov v CSV (z upoštevanjem iskanja in filtra po kategoriji),
 - dokumentacija API-ja v Swaggerju.
 
 ## Uporabljene tehnologije

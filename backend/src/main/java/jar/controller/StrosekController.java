@@ -10,9 +10,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.nio.charset.StandardCharsets;
+
+
 
 @RestController
 @RequestMapping("/api/strosek")
@@ -65,6 +69,51 @@ public class StrosekController {
         Pageable pageable = PageRequest.of(stran, velikost, Sort.by(smerRazvrscanja, razvrsti));
 
         return strosekRepository.poisci(iskanje, kategorijaId, pageable);
+    }
+
+    // IZVOZ V CSV: GET /api/strosek/izvoz
+    // Isti filter kot pri iskanju, vendar brez paginacije (izvozijo se vsi zadetki)
+    @Operation(summary = "Izvozi stroške v CSV",
+               description = "Vrne vse stroške, ki ustrezajo iskanju in kategoriji. Če ni zadetkov, vrne 204.")
+    @GetMapping("/izvoz")
+    public ResponseEntity<String> izvoziCsv(
+            @RequestParam(defaultValue = "") String iskanje,
+            @RequestParam(required = false) Long kategorijaId) {
+
+        // Vsi zadetki (ne le ena stran), najnovejši najprej
+        List<Strosek> stroski = strosekRepository
+                .poisci(iskanje, kategorijaId, Pageable.unpaged(Sort.by(Sort.Direction.DESC, "datum")))
+                .getContent();
+
+        // Ni zadetkov: status 204, brez vsebine
+        if (stroski.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        // Naslovna vrstica in po ena vrstica za vsak strošek (ločilo je podpičje)
+        StringBuilder csv = new StringBuilder("naziv;znesek;datum;kategorija\n");
+        for (Strosek strosek : stroski) {
+            String kategorija = strosek.getKategorija() != null ? strosek.getKategorija().getNaziv() : "";
+            csv.append(csvVrednost(strosek.getNaziv())).append(';')
+               .append(strosek.getZnesek()).append(';')
+               .append(strosek.getDatum()).append(';')
+               .append(csvVrednost(kategorija)).append('\n');
+        }
+
+        return ResponseEntity.ok()
+                .contentType(new MediaType("text", "csv", StandardCharsets.UTF_8))
+                .body(csv.toString());
+    }
+
+    // Vrednost s podpičjem ali narekovajem obdamo z narekovaji
+    private String csvVrednost(String vrednost) {
+        if (vrednost == null) {
+            return "";
+        }
+        if (vrednost.contains(";") || vrednost.contains("\"") || vrednost.contains("\n")) {
+            return "\"" + vrednost.replace("\"", "\"\"") + "\"";
+        }
+        return vrednost;
     }
 
     // READ (en): GET /api/strosek/{id}

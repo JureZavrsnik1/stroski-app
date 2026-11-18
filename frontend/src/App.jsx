@@ -26,6 +26,7 @@ function App() {
   const [novaKategorija, setNovaKategorija] = useState("");
   const [napaka, setNapaka] = useState("");
   const [verzija, setVerzija] = useState(0);
+  const [sporociloIzvoz, setSporociloIzvoz] = useState(""); // NOVO: sporočilo pri izvozu CSV
 
   // Naloži stroške z iskanjem, filtrom, stranjo in razvrščanjem
   async function naloziStroske() {
@@ -45,6 +46,41 @@ function App() {
     const podatki = await odgovor.json();
     setStroski(podatki.content);
     setSteviloStrani(podatki.totalPages);
+  }
+
+  // NOVO: izvoz v CSV z istim iskanjem in filtrom kot seznam, vendar brez paginacije
+  async function izvoziCsv() {
+    setSporociloIzvoz("");
+
+    const parametri = new URLSearchParams({ iskanje: iskanje });
+    if (filterKategorija !== "") {
+      parametri.append("kategorijaId", filterKategorija);
+    }
+
+    try {
+      const odgovor = await fetch(`${API}/strosek/izvoz?${parametri}`);
+
+      // 204 = ni zadetkov, datoteke ne prenesemo
+      if (odgovor.status === 204) {
+        setSporociloIzvoz("Ni stroškov za izvoz");
+        return;
+      }
+      if (!odgovor.ok) {
+        setSporociloIzvoz("Izvoz ni uspel");
+        return;
+      }
+
+      // Odgovor preberemo kot datoteko in sprožimo prenos
+      const blob = await odgovor.blob();
+      const url = URL.createObjectURL(blob);
+      const povezava = document.createElement("a");
+      povezava.href = url;
+      povezava.download = "stroski.csv";
+      povezava.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      setSporociloIzvoz("Izvoz ni uspel");
+    }
   }
 
   async function naloziKategorije() {
@@ -208,7 +244,11 @@ function App() {
             <option key={k.id} value={k.id}>{k.naziv}</option>
           ))}
         </select>
+        {/* NOVO: gumb za izvoz v CSV */}
+        <button type="button" onClick={izvoziCsv}>Izvozi v CSV</button>
       </div>
+      {/* NOVO: sporočilo, če izvoz ni uspel ali ni stroškov */}
+      {sporociloIzvoz && <p>{sporociloIzvoz}</p>}
 
       {/* Tabela z razvrščanjem po klikih na glavo */}
       <table>
