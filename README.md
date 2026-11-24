@@ -88,7 +88,109 @@ Uporabniške zgodbe s sprejemnimi kriteriji: [docs/user-stories.md](docs/user-st
 
 ![Razredni diagram](docs/razredni-diagram.png)
 
-Diagram prikazuje strukturo aplikacije skupaj z vsemi funkcionalnostmi iz primerov uporabe (registracija, prijava, upravljanje kategorij, pregled porabe). Registracija, prijava, upravljanje kategorij in pregled porabe v kodi še niso implementirani.
+Dopolnjen razredni diagram z mesečnim proračunom (US1). Izvorna koda je tudi v [docs/razredni-diagram.mmd](docs/razredni-diagram.mmd).
+
+```mermaid
+classDiagram
+    class Uporabnik {
+        -id: Long
+        -uporabniskoIme: String
+        -email: String
+        -gesloHash: String
+        -vloga: String
+        +registriraj(uporabniskoIme: String, email: String, geslo: String) Uporabnik
+        +prijavi(uporabniskoIme: String, geslo: String) boolean
+        +odjavi() void
+    }
+    class Administrator {
+        +dodajKategorijo(kategorija: Kategorija) Kategorija
+        +urediKategorijo(id: Long, naziv: String) Kategorija
+        +izbrisiKategorijo(id: Long) void
+    }
+    class Strosek {
+        -id: Long
+        -naziv: String
+        -opomba: String
+        -znesek: double
+        -datum: LocalDate
+    }
+    class Kategorija {
+        -id: Long
+        -naziv: String
+    }
+    class Proracun {
+        -id: Long
+        -znesek: double
+        +getZnesek() double
+        +setZnesek(znesek: double) void
+    }
+    class StrosekController {
+        +createStrosek(strosek: Strosek) Strosek
+        +pridobiVse() List~Strosek~
+        +poisci(iskanje: String, kategorijaId: Long, stran: int, velikost: int, razvrsti: String, smer: String) Page~Strosek~
+        +izvoziCsv(iskanje: String, kategorijaId: Long) ResponseEntity~String~
+        +pridobiEnega(id: Long) ResponseEntity~Strosek~
+        +posodobi(id: Long, novi: Strosek) ResponseEntity~Strosek~
+        +izbrisi(id: Long) ResponseEntity~Void~
+        +porabaPoKategorijah(od: LocalDate, do: LocalDate) Map~String, Double~
+        -csvVrednost(vrednost: String) String
+    }
+    class KategorijaController {
+        +createKategorija(kategorija: Kategorija) Kategorija
+        +pridobiVse() List~Kategorija~
+        +posodobi(id: Long, kategorija: Kategorija) Kategorija
+        +izbrisi(id: Long) void
+    }
+    class ProracunController {
+        +pridobiVse() List~Proracun~
+        +nastavi(kategorijaId: Long, zahteva: ProracunZahteva) ResponseEntity~?~
+        +odstrani(kategorijaId: Long) ResponseEntity~Void~
+        +pregled(leto: int, mesec: int) ResponseEntity~?~
+    }
+    class ProracunZahteva {
+        <<record>>
+        +znesek: Double
+    }
+    class PregledProracuna {
+        -MEJA_OPOZORILA: double = 0.8$
+        +stanje(proracun: Double, poraba: double)$ StanjeProracuna
+        +vrstica(kategorija: Kategorija, proracun: Double, poraba: double)$ PregledKategorije
+        -zaokrozi(znesek: double)$ double
+    }
+    class PregledKategorije {
+        <<record>>
+        +kategorijaId: Long
+        +kategorija: String
+        +proracun: Double
+        +poraba: double
+        +odstotek: Integer
+        +preostanek: Double
+        +stanje: StanjeProracuna
+    }
+    class StanjeProracuna {
+        <<enumeration>>
+        V_REDU
+        OPOZORILO
+        PREKORACEN
+        BREZ_PRORACUNA
+    }
+
+    StrosekController ..> Strosek : uporablja
+    Uporabnik <|-- Administrator
+    Uporabnik "1" -- "0..*" Strosek : ima
+    Strosek "0..*" --> "1" Kategorija : pripada
+    Administrator ..> Kategorija : upravlja
+    Uporabnik "1" -- "0..*" Proracun : nastavi
+    Proracun "0..1" --> "1" Kategorija : velja za
+    KategorijaController ..> Kategorija : uporablja
+    ProracunController ..> Proracun : uporablja
+    ProracunController ..> ProracunZahteva : prejme
+    ProracunController ..> PregledProracuna : uporablja
+    PregledProracuna ..> PregledKategorije : ustvari
+    PregledProracuna ..> StanjeProracuna : doloci
+```
+
+Diagram prikazuje strukturo aplikacije skupaj z vsemi funkcionalnostmi iz primerov uporabe (registracija, prijava, upravljanje kategorij, pregled porabe). Registracija, prijava, upravljanje kategorij in pregled porabe v kodi še niso implementirani. Diagram vključuje tudi mesečni proračun po kategorijah (US1), ki je že implementiran.
 
 ### Vloga razredov
 
@@ -98,6 +200,12 @@ Diagram prikazuje strukturo aplikacije skupaj z vsemi funkcionalnostmi iz primer
 - **Kategorija** – skupina, v katero se razvrščajo stroški (npr. hrana, prevoz).
 - **StrosekController** – REST krmilnik, ki sprejema zahteve za stroške (dodajanje, pregled, iskanje, urejanje, brisanje, izvoz, poraba po kategorijah).
 - **KategorijaController** – REST krmilnik za kategorije.
+- **Proracun** – mesečni proračun za eno kategorijo (znesek v EUR). Vsaka kategorija ima največ en proračun, nastavi ga uporabnik.
+- **ProracunZahteva** – podatkovni objekt (record) za telo zahteve, s katerim uporabnik pošlje nov znesek proračuna.
+- **PregledKategorije** – podatkovni objekt (record) za eno vrstico pregleda proračuna: poraba v izbranem mesecu, proračun, odstotek, preostanek in stanje. Vsebuje izračunane podatke, ki jih v bazi ni.
+- **StanjeProracuna** – naštevni tip s stanji proračuna: v redu (pod 80 %), opozorilo (80–100 %), prekoračen (nad 100 %) in brez proračuna.
+- **PregledProracuna** – razred s poslovnimi pravili proračuna (izračun stanja, odstotka in preostanka). Ločen je od krmilnika in baze, zato ga je mogoče enotno testirati.
+- **ProracunController** – REST krmilnik za nastavljanje, odstranjevanje in mesečni pregled proračunov.
 
 ### Ključne metode
 
@@ -107,12 +215,17 @@ Diagram prikazuje strukturo aplikacije skupaj z vsemi funkcionalnostmi iz primer
 - `createStrosek`, `posodobi`, `izbrisi` (StrosekController) – dodajanje, urejanje in brisanje stroška.
 - `registriraj`, `prijavi` (Uporabnik) – ustvarita uporabniški račun in preverita prijavne podatke.
 - `dodajKategorijo`, `urediKategorijo`, `izbrisiKategorijo` (Administrator) – upravljanje kategorij.
+- `nastavi` (ProracunController) – ustvari ali posodobi proračun kategorije; znesek, manjši ali enak 0, zavrne z napako 400, neobstoječo kategorijo z 404.
+- `pregled` (ProracunController) – za izbrani mesec sešteje stroške po kategorijah, jih poveže s proračuni in za vsako kategorijo vrne PregledKategorije.
+- `odstrani` (ProracunController) – odstrani proračun kategorije.
+- `stanje` (PregledProracuna) – določi stanje proračuna glede na porabo (meja opozorila je 80 %).
+- `vrstica` (PregledProracuna) – izračuna odstotek in preostanek ter ustvari PregledKategorije.
 
 ### Povezave med razredi
 
 - **Dedovanje:** Administrator podeduje od Uporabnika.
-- **Asociacija:** Uporabnik ima več stroškov, Strosek pripada eni Kategoriji.
-- **Odvisnost:** kontrolerja uporabljata Strosek in Kategorijo, Administrator upravlja Kategorijo.
+- **Asociacija:** Uporabnik ima več stroškov, Strosek pripada eni Kategoriji. Uporabnik nastavi več proračunov, Proracun velja za eno Kategorijo (vsaka kategorija ima največ en proračun).
+- **Odvisnost:** kontrolerji uporabljajo Strosek, Kategorijo in Proracun, Administrator upravlja Kategorijo. ProracunController uporablja PregledProracuna, ta pa ustvari PregledKategorije in določi StanjeProracuna. Statične metode v PregledProracuna so podčrtane.
 
 ## O projektu
 
@@ -175,6 +288,7 @@ stroski-app/
 │   ├── diagram-primerov-uporabe.png diagram primerov uporabe
 │   ├── primeri-uporabe.md           podrobni opisi primerov uporabe
 │   ├── razredni-diagram.png         razredni diagram
+│   ├── razredni-diagram.mmd         izvorna koda razrednega diagrama (Mermaid)
 │   └── user-stories.md              uporabniške zgodbe in sprejemni kriteriji
 ├── postman/                         Postman zbirka za testiranje API-ja
 ├── .gitignore
