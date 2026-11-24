@@ -2,6 +2,8 @@
 
 Spletna aplikacija za spremljanje osebnih stroškov: uporabnik zapisuje stroške, jih razvršča v kategorije ter jih išče, filtrira in pregleduje po straneh.
 
+**Člani skupine:** Jure Završnik, Samuel Perovsek
+
 ## Kazalo
 1. [Vizija](#vizija)
 2. [Opis rešitve](#opis-rešitve)
@@ -26,10 +28,7 @@ Naša aplikacija **Stroški App** je preprosta spletna aplikacija za beleženje 
 
 Aplikacija je namenjena predvsem **študentom in posameznikom**, ki želijo brez večjega truda spremljati svojo osebno porabo, ne potrebujejo pa zahtevnih računovodskih orodij.
 
-Aplikacija je sestavljena iz dveh delov:
-
-- **zaledni del (backend)** v ogrodju Spring Boot, ki skrbi za poslovno logiko in shranjevanje podatkov v podatkovno bazo PostgreSQL ter ponuja REST API (dokumentiran s Swagger/OpenAPI),
-- **čelni del (frontend)** v knjižnici React, preko katerega uporabnik v brskalniku dodaja, ureja in pregleduje svoje stroške.
+V aplikaciji nastopata dve vlogi: **uporabnik**, ki beleži in pregleduje svoje stroške, ter **administrator**, ki upravlja kategorije stroškov, ki so na voljo vsem uporabnikom.
 
 Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabnik stroške razvršča v kategorije (npr. hrana, prevoz, stanovanje, zabava), kar mu omogoča pregled porabe po področjih.
 
@@ -40,7 +39,7 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 - **Seznam stroškov** – pregleden prikaz vseh zabeleženih stroškov.
 - **Iskanje in filtriranje** – iskanje po nazivu ter filtriranje po kategoriji in časovnem obdobju.
 - **Razvrščanje in paginacija** – razvrščanje po datumu, znesku ali nazivu ter prikaz po straneh, kar ohranja preglednost tudi pri večjem številu vnosov.
-- **Upravljanje kategorij** – dodajanje in urejanje kategorij stroškov.
+- **Upravljanje kategorij (administrator)** – administrator dodaja, ureja in briše kategorije stroškov, uporabnik pa jih le izbira pri vnosu stroška.
 - **Pregled porabe** – prikaz skupne porabe v izbranem obdobju in po kategorijah.
 
 ### Obseg rešitve in omejitve
@@ -67,7 +66,7 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 |---|---|
 | **Strošek** | Posamezen zabeležen izdatek uporabnika. Vsebuje naziv, znesek, datum, kategorijo in neobvezno opombo. |
 | **Znesek** | Vrednost stroška v evrih (EUR). |
-| **Datum stroška** | Dan, ko je bil strošek nastal (ne nujno dan, ko je bil vnesen v aplikacijo). |
+| **Datum stroška** | Dan, ko je strošek nastal (ne nujno dan, ko je bil vnesen v aplikacijo). |
 | **Opomba** | Neobvezno dodatno besedilo, s katerim uporabnik podrobneje opiše strošek. |
 | **Kategorija** | Skupina, v katero uporabnik razvrsti strošek glede na področje porabe (npr. hrana, prevoz, stanovanje, zabava). Vsak strošek pripada natanko eni kategoriji. |
 | **Obdobje** | Časovni razpon (od–do), za katerega uporabnik želi videti stroške ali porabo, npr. tekoči mesec. |
@@ -75,9 +74,6 @@ Vsak strošek ima naziv, znesek, datum, kategorijo in neobvezno opombo. Uporabni
 | **Poraba po kategorijah** | Prikaz porabe, razdeljene glede na kategorije, iz katerega je razvidno, na katerem področju uporabnik porabi največ. |
 | **Pregled porabe** | Del aplikacije, kjer uporabnik vidi skupno porabo in porabo po kategorijah za izbrano obdobje. |
 | **Administrator** | Uporabnik z dodatnimi pravicami, ki upravlja kategorije stroškov (dodajanje, urejanje in brisanje kategorij), ki so na voljo vsem uporabnikom. |
-| **Registracija** | Postopek, s katerim nov uporabnik ustvari uporabniški račun in tako dobi dostop do aplikacije. |
-| **Prijava** | Postopek, s katerim se uporabnik ali administrator z uporabniškim imenom in geslom prijavi v aplikacijo in dostopa do svojih podatkov. |
-
 
 ## Diagram primerov uporabe
 
