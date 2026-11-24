@@ -11,12 +11,13 @@ Spletna aplikacija za spremljanje osebnih stroškov: uporabnik zapisuje stroške
 4. [Obseg rešitve in omejitve](#obseg-rešitve-in-omejitve)
 5. [Besednjak](#besednjak)
 6. [Diagram primerov uporabe](#diagram-primerov-uporabe)
-7. [O projektu](#o-projektu)
-8. [Uporabljene tehnologije](#uporabljene-tehnologije)
-9. [Struktura projekta](#struktura-projekta)
-10. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
-11. [Navodila za razvijalce](#navodila-za-razvijalce)
-12. [Standardi kodiranja](#standardi-kodiranja)
+7. [Razredni diagram](#razredni-diagram)
+8. [O projektu](#o-projektu)
+9. [Uporabljene tehnologije](#uporabljene-tehnologije)
+10. [Struktura projekta](#struktura-projekta)
+11. [Navodila za nameščanje in zagon](#navodila-za-nameščanje-in-zagon)
+12. [Navodila za razvijalce](#navodila-za-razvijalce)
+13. [Standardi kodiranja](#standardi-kodiranja)
 
 ## Vizija
 
@@ -83,6 +84,36 @@ Podrobni opisi primerov uporabe: [docs/primeri-uporabe.md](docs/primeri-uporabe.
 
 Uporabniške zgodbe s sprejemnimi kriteriji: [docs/user-stories.md](docs/user-stories.md)
 
+## Razredni diagram
+
+![Razredni diagram](docs/razredni-diagram.png)
+
+Diagram prikazuje strukturo aplikacije skupaj z vsemi funkcionalnostmi iz primerov uporabe (registracija, prijava, upravljanje kategorij, pregled porabe). Registracija, prijava, upravljanje kategorij in pregled porabe v kodi še niso implementirani.
+
+### Vloga razredov
+
+- **Uporabnik** – predstavlja uporabnika aplikacije (uporabniško ime, e-pošta, zgoščeno geslo, vloga). Registrira se, prijavi in beleži svoje stroške.
+- **Administrator** – poseben uporabnik (dedovanje), ki upravlja kategorije stroškov.
+- **Strosek** – posamezen zabeležen izdatek (naziv, opomba, znesek, datum). Pripada natanko eni kategoriji.
+- **Kategorija** – skupina, v katero se razvrščajo stroški (npr. hrana, prevoz).
+- **StrosekController** – REST krmilnik, ki sprejema zahteve za stroške (dodajanje, pregled, iskanje, urejanje, brisanje, izvoz, poraba po kategorijah).
+- **KategorijaController** – REST krmilnik za kategorije.
+
+### Ključne metode
+
+- `poisci` (StrosekController) – vrne eno stran stroškov glede na iskanje po nazivu, filter po kategoriji, razvrščanje in paginacijo.
+- `izvoziCsv` (StrosekController) – vrne vse stroške, ki ustrezajo iskanju in filtru, v obliki datoteke CSV.
+- `porabaPoKategorijah` (StrosekController) – za izbrano obdobje sešteje porabo po kategorijah.
+- `createStrosek`, `posodobi`, `izbrisi` (StrosekController) – dodajanje, urejanje in brisanje stroška.
+- `registriraj`, `prijavi` (Uporabnik) – ustvarita uporabniški račun in preverita prijavne podatke.
+- `dodajKategorijo`, `urediKategorijo`, `izbrisiKategorijo` (Administrator) – upravljanje kategorij.
+
+### Povezave med razredi
+
+- **Dedovanje:** Administrator podeduje od Uporabnika.
+- **Asociacija:** Uporabnik ima več stroškov, Strosek pripada eni Kategoriji.
+- **Odvisnost:** kontrolerja uporabljata Strosek in Kategorijo, Administrator upravlja Kategorijo.
+
 ## O projektu
 
 Stroški App je namenjena posameznikom, ki želijo imeti pregled nad tem, koliko denarja porabijo in za kaj. Sestavljata jo zaledje (REST API) in ločen uporabniški vmesnik.
@@ -143,6 +174,7 @@ stroski-app/
 ├── docs/                            dokumentacija
 │   ├── diagram-primerov-uporabe.png diagram primerov uporabe
 │   ├── primeri-uporabe.md           podrobni opisi primerov uporabe
+│   ├── razredni-diagram.png         razredni diagram
 │   └── user-stories.md              uporabniške zgodbe in sprejemni kriteriji
 ├── postman/                         Postman zbirka za testiranje API-ja
 ├── .gitignore
